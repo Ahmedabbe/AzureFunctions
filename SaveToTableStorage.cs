@@ -28,12 +28,13 @@ namespace AzureFunctions
 
                 payload.PartitionKey = "dht";
                 payload.RowKey = Guid.NewGuid().ToString();
+                log.LogInformation("Saving data to Table Storage");
 
                 return payload;
             }
             catch
             {
-
+                log.LogInformation("Failed to deserialize message. No data saved");
             }
 
             return null;
