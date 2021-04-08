@@ -15,7 +15,6 @@ namespace AzureFunctions
 
         [FunctionName("SaveToTableStorage")]
         [return: Table("Messages")]
-
         public static void Run([IoTHubTrigger("messages/events", Connection = "IotHubConnection")]EventData message, ILogger log)
         {
             log.LogInformation($"C# IoT Hub trigger function processed a message: {Encoding.UTF8.GetString(message.Body.Array)}");
