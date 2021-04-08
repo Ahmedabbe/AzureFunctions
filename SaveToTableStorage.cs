@@ -6,6 +6,9 @@ using Microsoft.Azure.EventHubs;
 using System.Text;
 using System.Net.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using AzureFunctions.Models;
+using System;
 
 namespace AzureFunctions
 {
@@ -15,9 +18,26 @@ namespace AzureFunctions
 
         [FunctionName("SaveToTableStorage")]
         [return: Table("Messages")]
-        public static void Run([IoTHubTrigger("messages/events", Connection = "IotHubConnection")]EventData message, ILogger log)
+        public static DhtMessage Run([IoTHubTrigger("messages/events", Connection = "IotHubConnection")]EventData message, ILogger log)
         {
-            log.LogInformation($"C# IoT Hub trigger function processed a message: {Encoding.UTF8.GetString(message.Body.Array)}");
+            log.LogInformation($"Incomming message: {Encoding.UTF8.GetString(message.Body.Array)}");
+
+            try
+            {
+                var payload = JsonConvert.DeserializeObject<DhtMessage>(Encoding.UTF8.GetString(message.Body.Array));
+
+                payload.PartitionKey = "dht";
+                payload.RowKey = Guid.NewGuid().ToString();
+
+                return payload;
+            }
+            catch
+            {
+
+            }
+
+            return null;
+            
         }
     }
 }
