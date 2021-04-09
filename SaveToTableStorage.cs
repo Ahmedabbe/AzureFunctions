@@ -26,7 +26,8 @@ namespace AzureFunctions
             {
                 var payload = JsonConvert.DeserializeObject<DhtMessage>(Encoding.UTF8.GetString(message.Body.Array));
 
-                payload.PartitionKey = payload.Type;
+                //payload.PartitionKey = payload.Type;
+                payload.PartitionKey = message.Properties["name"].ToString();
                 payload.RowKey = Guid.NewGuid().ToString();
                 log.LogInformation("Saving data to Table Storage");
 
