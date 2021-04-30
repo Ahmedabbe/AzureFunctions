@@ -39,5 +39,5 @@ jobs:
         app-name: 'iot20tablestorage'
         slot-name: 'production'
         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_9baad28b42c9473aa0d417af1b6e32a1 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_bc0e5ab611374779adc7618f566c44f1 }}
   
