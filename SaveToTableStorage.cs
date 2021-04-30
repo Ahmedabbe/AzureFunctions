@@ -18,7 +18,7 @@ namespace AzureFunctions
 
         [FunctionName("SaveToTableStorage")]
         [return: Table("Messages")]
-        public static DhtMessage Run([IoTHubTrigger("messages/events", Connection = "IotHubConnection")]EventData message, ILogger log)
+        public static DhtMessage Run([IoTHubTrigger("messages/events", Connection = "IotHubConnection", ConsumerGroup = "tablestorage")]EventData message, ILogger log)
         {
             log.LogInformation($"Incomming message: {Encoding.UTF8.GetString(message.Body.Array)}");
 
@@ -26,7 +26,6 @@ namespace AzureFunctions
             {
                 var payload = JsonConvert.DeserializeObject<DhtMessage>(Encoding.UTF8.GetString(message.Body.Array));
 
-                //payload.PartitionKey = payload.Type;
                 payload.PartitionKey = message.Properties["name"].ToString();
                 payload.RowKey = Guid.NewGuid().ToString();
                 log.LogInformation("Saving data to Table Storage");

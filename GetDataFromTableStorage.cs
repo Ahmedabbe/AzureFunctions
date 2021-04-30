@@ -25,7 +25,6 @@ namespace AzureFunctions
             string orderby = req.Query["orderby"];
 
             IEnumerable<DhtMessage> results = await cloudtable.ExecuteQuerySegmentedAsync(new TableQuery<DhtMessage>(), null);
-            results = results.OrderByDescending(ts => ts.Timestamp);
 
             if (orderby == "desc")
                 results = results.OrderByDescending(ts => ts.Timestamp);
